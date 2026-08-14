@@ -21,7 +21,6 @@ genres = [
     "Educational",
     "Erotica",
     "Fantasy",
-    "Hentai",
     "Historical",
     "Horror",
     "Josei",
@@ -107,7 +106,7 @@ MANIFEST: dict[str, Any] = {
     ],
     "behaviorHints": {"configurable": True},
     "resources": ["catalog", "meta", "subtitles"],
-    "idPrefixes": ["mal", "kitsu"],
+    "idPrefixes": ["mal", "kitsu", "tt"],
 }
 
 
@@ -141,7 +140,9 @@ async def addon_configured_manifest(user_id: str):
     user = get_user(user_id)
     if not user:
         return await respond_with(
-            {"error": f"User ID: {user_id} not found"}, private=True, cache_max_age=1800
+            {"error": f"User ID: {user_id} not found"},
+            private=True,
+            cache_max_age=1800,
         )
 
     user_catalogs = user.get("catalogs")

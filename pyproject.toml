@@ -13,7 +13,6 @@ dependencies = [
     "pytest-asyncio>=1.2.0",
     "pytest-mock>=3.15.1",
     "uvicorn>=0.39.0",
-    "quart-compress2",
     "python-levenshtein>=0.27.1",
     "mal-py",
 ]
@@ -29,13 +28,13 @@ dev = [
 
 [tool.uv]
 package = false
+build-constraint-dependencies = ["flit-core<4"]
 
 [[tool.uv.index]]
 name = "pypi"
 url = "https://pypi.org/simple"
 
 [tool.uv.sources]
-quart-compress2 = { git = "https://github.com/searinminecraft/quart-compress.git", rev = "import-fix" }
 kitsu-py = { git = "https://github.com/SageTendo/kitsu.py.git" }
 mal-py = { git = "https://github.com/SageTendo/mal.py.git" }
 

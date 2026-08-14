@@ -10,7 +10,7 @@ COPY . .
 
 EXPOSE 5000
 
-RUN uv sync --frozen --no-dev
+RUN uv lock && uv sync --no-dev
 
 ENTRYPOINT ["uv", "run", "python"]
 CMD ["run.py"]
