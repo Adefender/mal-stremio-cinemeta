@@ -26,6 +26,7 @@ from app.lib.content_sync import (
 )
 from app.lib.metadata import parse_background, to_stremio_genres
 from app.routes import manifest
+from app.services.cinemeta_resolver import resolve_mal_to_imdb
 from config import Config
 
 MAL_CALLBACK_URL = f"{Config.PROTOCOL}://{Config.REDIRECT_URL}/callback"
@@ -283,8 +284,40 @@ class MalService:
         """
 
         formatted_content_id = None
+
         if content_id := anime.id:
-            formatted_content_id = f"{config.MAL_ID_PREFIX}{content_id}"
+            mal_title = (
+                anime.title.english
+                or anime.title.canonical
+                or ""
+            )
+
+            mal_year = None
+
+            if anime.start_date:
+                mal_year = anime.start_date.year
+
+            mal_media_type = (
+                str(anime.media_type or "")
+                .strip()
+                .lower()
+            )
+
+            imdb_id = resolve_mal_to_imdb(
+                content_id,
+                title=mal_title,
+                year=mal_year,
+                media_type=mal_media_type,
+            )
+
+            if imdb_id:
+                formatted_content_id = imdb_id
+            else:
+                # Fall back to the original MAL ID format
+                # when Fribb has no IMDb mapping.
+                formatted_content_id = (
+                    f"{config.MAL_ID_PREFIX}{content_id}"
+                )
 
         title = anime.title.english or anime.title.canonical
         synopsis = anime.synopsis
