@@ -7,7 +7,10 @@ from pathlib import Path
 import requests
 
 
-FRIBB_FILE = Path("/app/anime-list-full.json")
+FRIBB_FILE = (
+    Path(__file__).resolve().parents[2]
+    / "anime-list-full.json"
+)
 
 CINEMETA_URL = "https://v3-cinemeta.strem.io/meta/series/{imdb_id}.json"
 SHIKIMORI_SEARCH_URL = "https://shikimori.one/api/animes"
